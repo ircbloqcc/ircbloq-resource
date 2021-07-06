@@ -7,7 +7,7 @@ const fs = require('fs');
 const configPath = path.resolve('./external-resources/config.json');
 
 const config = {};
-config.user = 'openblockcc'; //dont rename main source
+config.user = 'ircbloqcc'; //dont rename main source
 config.repo = 'external-resources';
 
 releaseDownloader.getReleaseList(`${config.user}/${config.repo}`)
