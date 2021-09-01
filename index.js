@@ -4,8 +4,7 @@ const path = require('path');
 const compareVersions = require('compare-versions');
 const rimraf = require('rimraf');
 
-const IrcBloqExtension = require('./src/extension-server');
-const IrcBloqDevice = require('./src/device-server');
+const ResourceServer = require('./src/server');
 const GIT = require('./src/git');
 
 /**
@@ -32,9 +31,6 @@ class IrcbloqResourceServer {
         this._configPath = path.join(this._userDataPath, 'config.json');
 
         this._extensionTransferred = 0;
-
-        this.device = new IrcBloqDevice(this._userDataPath, this._resourcesPath);
-        this.extension = new IrcBloqExtension(this._userDataPath, this._resourcesPath);
 
         this.copyToUserDataPath();
     }
@@ -140,18 +136,14 @@ class IrcbloqResourceServer {
         });
     }
 
-    listen (deviceServerPort = null, extensionServerPort = null) {
-        this.device.on('error', e => {
+    listen (port = null) {
+        const server = new ResourceServer(this._userDataPath);
+
+         server.on('error', e => {
             console.warn(e);
         });
 
-        this.device.listen(deviceServerPort);
-
-        this.extension.on('error', e => {
-            console.warn(e);
-        });
-
-        this.extension.listen(extensionServerPort);
+        server.listen(port);
     }
 }
 
