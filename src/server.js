@@ -77,7 +77,7 @@ class IrcBloqResourceServer extends Emitter{
 
         this.emit('ready');
         console.log(`\n----------------------------------------`);
-        console.log(`socket server listend: http://0.0.0.0:${this._socketPort}\nIrcbloq ${this._type} server start successfully`);
+        console.log(`\x1B[32msocket server listend: http://0.0.0.0:${this._socketPort}\nOpenblock ${this._type} server start successfully\x1B[0m`);
         console.log(`----------------------------------------\n`);
     }
 }
