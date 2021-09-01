@@ -7,7 +7,7 @@ const copydir = require('copy-dir');
 const buildPath = path.join(__dirname, '../dist/extensions');
 const translations = require(path.join(__dirname, '../external-resources/locales.js'));
 
-const EXTENSION_CLASS = ['sheild', 'actuator', 'sensor', 'communication', 'display', 'kit', 'other'];
+const EXTENSION_CLASS = ['shield', 'actuator', 'sensor', 'communication', 'display', 'kit', 'other'];
 const DEVICE_TYPE = ['arduino', 'microbit'];
 
 const parseArgs = () => {
