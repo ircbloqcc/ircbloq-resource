@@ -7,9 +7,16 @@ const IrcBloqExtension = require('./extension');
 
 /**
  * Configuration the default port.
+ 
  * @readonly
  */
 const DEFAULT_PORT = 20120;
+
+/**
+ * Supported locale list.
+ * @readonly
+ */
+const LOCALE_LIST = ['en', 'zh-cn'];
 
 /**
  * A server to provide local resource.
@@ -33,9 +40,23 @@ class IrcBloqResourceServer extends Emitter{
         // eslint-disable-next-line global-require
         const translations = require(path.join(this._userDataPath, 'locales.js'));
 
-        this._formatMessage.setup({
-            locale: 'en',
-            translations: translations
+        this._formatMessage = {};
+        this.deviceIndexData = {};
+        this.extensionsIndexData = {};
+
+        // Prepare data in advance to speed up data transmission
+        LOCALE_LIST.forEach(locale => {
+            this._formatMessage[`${locale}`] = formatMessage.namespace();
+            this._formatMessage[`${locale}`].setup({
+                locale: locale,
+                translations: translations
+            });
+
+            this.deviceIndexData[`${locale}`] =
+                JSON.stringify(this.devices.assembleData(this._userDataPath, this._formatMessage[`${locale}`]));
+
+            this.extensionsIndexData[`${locale}`] =
+                JSON.stringify(this.extensions.assembleData(this._userDataPath, this._formatMessage[`${locale}`]));
         });
     }
 
@@ -61,13 +82,12 @@ class IrcBloqResourceServer extends Emitter{
             const locale = req.params.locale.slice(0, -5);
             const type = req.params.type;
 
-            this._formatMessage.setup({locale: locale});
-
-            if (type === this.extensions.type) {
-                res.send(JSON.stringify(this.extensions.assembleData(this._userDataPath, this._formatMessage)));
+              if (type === this.extensions.type) {
+                res.send(this.extensionsIndexData[`${locale}`]);
             } else if (type === this.devices.type) {
-                res.send(JSON.stringify(this.devices.assembleData(this._userDataPath, this._formatMessage)));
+                res.send(this.deviceIndexData[`${locale}`]);
             }
+			
         });
 
         this._app.listen(this._socketPort).on('error', e => {
