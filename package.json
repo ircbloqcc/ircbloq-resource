@@ -6,11 +6,12 @@
   "scripts": {
     "fetch": "node ./script/download.js",
     "start": "rimraf ../.ircbloqData/external-resources && node ./test/start.js",
-    "clean": "rimraf external-resources dist translation downloading-* ../.openblockData/external-resources",
+    "clean": "rimraf external-resources dist translation downloading-* ../.ircbloqData/external-resources",
     "build:extension": "node ./script/generate-extension-page.js --url=https://ircbloqcc.github.io/external-resources/",
     "build:device": "node ./script/generate-device-page.js --url=https://ircbloqcc.github.io/external-resources/",
     "build": "rimraf dist && npm run build:extension && npm run build:device",
     "deploy": "npm run fetch && npm run build",
+	"i18n:src": "node ./script/extract-format-message.js",
     "lint": "eslint ./",
     "test": "node test/upgrade.js"
   },
