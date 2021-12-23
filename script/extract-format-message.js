@@ -33,7 +33,7 @@ const generateDevicesThumbnailData = () => {
 
 const generateExtensionsThumbnailData = () => {
     const EXTENSION_CLASS = ['shield', 'actuator', 'sensor', 'communication', 'display', 'kit', 'other'];
-    const DEVICE_TYPE = ['arduino', 'microbit'];
+    const DEVICE_TYPE = ['arduino', 'maixduino', 'microbit'];
 
     const extensionsThumbnailData = [];
 
